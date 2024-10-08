@@ -1,0 +1,20 @@
+FROM pypy:3.10-slim-bookworm
+
+# Встановити залежності під користувачем root
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+
+# Скопіювати main.py
+COPY main.py /app/main.py
+
+# Встановити робочу директорію
+WORKDIR /app
+
+# Add and enable a new user після інсталяції залежностей
+RUN addgroup --system --gid 1000 boty && adduser --system --uid 1000 --ingroup boty tgram
+
+# Переключитись на менш привілейованого користувача
+USER tgram
+
+# Запуск програми
+CMD ["pypy3", "main.py"]

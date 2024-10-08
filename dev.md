@@ -8,3 +8,9 @@
 ### Install dependencies
 
 `pip install -r requirements.txt`
+
+
+# Image → Container
+`docker build -f Dockerfile.botTG -t test1 .`
+
+`docker run --rm -it --env-file .env test1:latest`

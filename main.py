@@ -1,13 +1,13 @@
 import asyncio
-import os
+from os import getenv
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart, Command
 from aiogram.types import BotCommand, Message
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Завантажуємо змінні середовища з файлу .env
-load_dotenv()
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+#load_dotenv()
+TELEGRAM_TOKEN = getenv("TELEGRAM_TOKEN")
 
 # Ініціалізуємо бота та диспетчер
 bot_glob = Bot(token=TELEGRAM_TOKEN)

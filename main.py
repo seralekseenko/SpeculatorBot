@@ -35,10 +35,10 @@ async def say_ololo(message: Message):
     await message.answer("ololo")
 
 # Обробник для будь-якого тексту
-@dp.message()
-async def echo_message(message: Message):
-    # message уже містить у собі форматований текст, тепер його треба правильно надрукувати.
-    await message.answer(f"{message.text}", parse_mode="Markdown")
+# @dp.message()
+# async def echo_message(message: Message):
+#     # message уже містить у собі форматований текст, тепер його треба правильно надрукувати.
+#     await message.answer(f"{message.text}", parse_mode="Markdown")
 
 async def main():
     # Запуск бота

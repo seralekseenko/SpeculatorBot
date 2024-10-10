@@ -1,0 +1,50 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'  # Запускається при пуші тегів виду v1.0.0
+
+permissions:
+  contents: read # 'write' for GitHub release ↓
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Крок для автентифікації
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Current date
+      - name: Set build date
+        id: build_date
+        run: echo "date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
+      # Робота з контейнером
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.botTG
+          push: true
+          labels: |
+            org.opencontainers.image.created=${{ steps.build_date.outputs.date }}
+            org.opencontainers.image.authors=${{ github.actor }}
+            org.opencontainers.image.version=${{ github.ref_name }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title=SpeculatorBot
+            org.opencontainers.image.description="Telegram bot for training skills."
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/speculatorbot:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/speculatorbot:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/speculatorbot:${{ github.sha }}
+
+
+

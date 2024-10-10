@@ -3,10 +3,8 @@ from os import getenv
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart, Command
 from aiogram.types import BotCommand, Message
-#from dotenv import load_dotenv
 
-# Завантажуємо змінні середовища з файлу .env
-#load_dotenv()
+# Змінні середовища вже присутні в контейнері!
 TELEGRAM_TOKEN = getenv("TELEGRAM_TOKEN")
 
 # Ініціалізуємо бота та диспетчер
